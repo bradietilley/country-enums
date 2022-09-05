@@ -15,6 +15,15 @@ $au = Country::AU;
 $region = $au->regions()[0];
 $random = Region::random($au);
 
-print_r($au->toArray());
-print_r($region->toArray());
-print_r($random->label());
+print "\n" . print_r($au->toArray(), true);
+print "\n" . print_r($region->toArray(), true);
+print "\n" . print_r($random->label(), true);
+print "\n" . print_r($au->getRegionValues(), true);
+
+print "\n" . print_r(count(Country::getValues()), true);
+print "\n" . print_r(count(Region::getValues()), true);
+print "\n" . print_r(count(Region::getValues('AU')), true);
+
+print "\n" . print_r(count(Country::getOptions()), true);
+print "\n" . print_r(count(Region::getOptions()), true);
+print "\n" . print_r(count(Region::getOptions('AU')), true);

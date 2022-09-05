@@ -815,4 +815,40 @@ enum Country: string
             static::ZW => "zimbabwe",
         };
     }
+
+    /**
+     * Get all available country codes
+     *
+     * @return array
+     */
+    public static function getValues(): array
+    {
+        return array_map(fn(Country $country) => $country->value, Country::cases());
+    }
+
+    /**
+     * Get all available region codes for the given country
+     *
+     * @return array
+     */
+    public function getRegionValues(): array
+    {
+        return array_map(fn(Region $region) => $region->value, $this->regions());
+    }
+
+    /**
+     * Get all options in key-value (code => label) pairs
+     *
+     * @return array
+     */
+    public static function getOptions(): array
+    {
+        $options = [];
+
+        foreach (Country::cases() as $country) {
+            $options[$country->value] = $country->label();
+        }
+
+        return $options;
+    }
 }

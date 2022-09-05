@@ -100,4 +100,45 @@ enum Region: string
             static::{SHORT} => "{SORTKEY}",
         };
     }
+
+    /**
+     * Get all available region codes (optionally scoped by country)
+     *
+     * @param string|Country|null $country
+     * @return array
+     */
+    public static function getValues(string|Country $country = null): array
+    {
+        if ($country !== null) {
+            $country = ($country instanceof Country) ? $country : Country::from($country);
+
+            return $country->getRegionValues();
+        }
+
+        return array_map(fn(Region $region) => $region->value, Region::cases());
+    }
+
+    /**
+     * Get all options in key-value (code => label) pairs
+     *
+     * @return array
+     */
+    public static function getOptions(string|Country $country = null): array
+    {
+        $options = [];
+        
+        if ($country !== null) {
+            $country = ($country instanceof Country) ? $country : Country::from($country);
+
+            $cases = $country->regions();
+        } else {
+            $cases = Region::cases();
+        } 
+
+        foreach ($cases as $region) {
+            $options[$region->value] = $region->label();
+        }
+
+        return $options;
+    }
 }
