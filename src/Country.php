@@ -297,23 +297,6 @@ enum Country: string
     }
 
     /**
-     * Find the given country by name
-     *
-     * @param string $name
-     * @return string
-     */
-    public function findByName(string $name): string
-    {
-        $name = strtolower($name);
-
-        foreach (static::cases() as $country) {
-            if (strtolower($country->label()) === $name) {
-
-            }
-        }
-    }
-
-    /**
      * Get the human-readable label of this country
      *
      * @return string
