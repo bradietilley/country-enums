@@ -1,0 +1,17 @@
+{
+    "name": "bradietilley/country-enums",
+    "description": "All (or at least most) countries and their regions formatted as PHP enums",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tilley\\CountryEnums\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bradie Tilley",
+            "homepage": "https://github.com/bradietilley"
+        }
+    ]
+}

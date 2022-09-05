@@ -1,0 +1,103 @@
+<?php
+
+namespace Tilley\CountryEnums;
+
+enum Region: string
+{
+    case {SHORT} = '{SHORT}'; // {LABEL}
+
+    /**
+     * Get the country that this region belongs to
+     *
+     * @return Country
+     */
+    public function country(): Country
+    {
+        return Country::from($this->countryCode());
+    }
+
+    /**
+     * Cast this Region to array format
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'label' => $this->label(),
+            'value' => $this->value,
+            'region' => $this->regionCode(),
+            'country' => $this->countryCode(),
+            'sort' => $this->sortKey(),
+        ];
+    }
+
+    /**
+     * Get the region code
+     *
+     * @return string
+     */
+    public function regionCode(): string
+    {
+        return substr($this->value, 3);
+    }
+
+    /**
+     * Get the country code
+     *
+     * @return string
+     */
+    public function countryCode(): string
+    {
+        return substr($this->value, 0, 2);
+    }
+
+    /**
+     * Get regions in the given country.
+     *
+     * @param string|Country $country
+     * @return array<Region>
+     */
+    public static function for(string|Country $country): array
+    {
+        $country = ($country instanceof Country) ? $country : Country::from($country);
+        
+        return $country->regions();
+    }
+
+    /**
+     * Get a random Region
+     *
+     * @return Region
+     */
+    public static function random(string|Country $country = null): Region
+    {
+        $cases = ($country !== null) ? static::for($country) : Region::cases();
+
+        return $cases[mt_rand(0, count($cases) - 1)];
+    }
+
+    /**
+     * Get the human-readable label of this region without country prefix
+     *
+     * @return string
+     */
+    public function label(): string
+    {
+        return match ($this) {
+            static::{SHORT} => "{LABEL}",
+        };
+    }
+
+    /**
+     * Get the sort key (English-version snake_case) for this Region
+     *
+     * @return string
+     */
+    public function sortKey(): string
+    {
+        return match ($this) {
+            static::{SHORT} => "{SORTKEY}",
+        };
+    }
+}
