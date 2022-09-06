@@ -3,6 +3,8 @@
 use CountryEnums\Country;
 use CountryEnums\Region;
 
+$from = memory_get_peak_usage(true);
+
 function dd()
 {
     array_map(fn($x) => print_r($x), func_get_args());
@@ -27,3 +29,10 @@ print "\n" . print_r(count(Region::getValues('AU')), true);
 print "\n" . print_r(count(Country::getOptions()), true);
 print "\n" . print_r(count(Region::getOptions()), true);
 print "\n" . print_r(count(Region::getOptions('AU')), true);
+
+foreach (Country::cases() as $country) {
+    print "\n" . $country->svgFlag();
+}
+
+$to = memory_get_peak_usage(true);
+print "\n" . print_r($to - $from, true);

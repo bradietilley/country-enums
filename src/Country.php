@@ -2,6 +2,8 @@
 
 namespace CountryEnums;
 
+use InvalidArgumentException;
+
 enum Country: string
 {
     case AF = 'AF'; // Afghanistan
@@ -280,7 +282,7 @@ enum Country: string
             'label' => $this->label(),
             'value' => $this->value,
             'regions' => array_map(fn(Region $region) => $region->toArray(), $this->regions()),
-            'sort' => $this->sortKey(),
+            'code' => $this->code(),
         ];
     }
 
@@ -291,9 +293,131 @@ enum Country: string
      */
     public static function random(): Country
     {
-        $cases = Country::cases();
+        $cases = static::cases();
 
         return $cases[mt_rand(0, count($cases) - 1)];
+    }
+
+    /**
+     * Get all available country codes
+     *
+     * @return array
+     */
+    public static function getValues(): array
+    {
+        return array_map(fn(Country $country) => $country->value, static::cases());
+    }
+
+    /**
+     * Get all available region codes for the given country
+     *
+     * @return array
+     */
+    public function getRegionValues(): array
+    {
+        return array_map(fn(Region $region) => $region->value, $this->regions());
+    }
+
+    /**
+     * Get all options in key-value (code => label) pairs
+     *
+     * @return array
+     */
+    public static function getOptions(): array
+    {
+        $options = [];
+
+        foreach (static::cases() as $country) {
+            $options[$country->value] = $country->label();
+        }
+
+        return $options;
+    }
+
+    /**
+     * Get the path to the SVG flag for the country if it exists
+     *
+     * @return string|null
+     */
+    public function svgFlag(): string
+    {
+        $path = sprintf(__DIR__ . '/../country-flags/svg/%s.svg', strtolower($this->value));
+
+        return ($path = realpath($path)) ? $path : null;
+    }
+
+    /**
+     * Get the contents of the SVG (the XML)
+     *
+     * @return string|null
+     */
+    public function svgFlagContents(): ?string
+    {
+        return ($svg = $this->svgFlag()) ? file_get_contents($svg) : null;
+    }
+
+    /**
+     * Get the path to the PNG flag for this country if it exists
+     *
+     * @param integer $width
+     * @return string|null
+     */
+    public function pngFlag(int $width = 100): ?string
+    {
+        if ($width > 250) {
+            $width = 1000;
+        } else if ($width > 100) {
+            $width = 250;
+        } else {
+            $width = 100;
+        }
+
+        $path = sprintf(__DIR__ . '/../country-flags/png%dpx/%s.png', $width, strtolower($this->value));
+
+        return ($path = realpath($path)) ? $path : null;
+    }
+
+    /**
+     * Get the contents of the PNG
+     *
+     * @return string|null
+     */
+    public function pngFlagContents(int $width = 100): ?string
+    {
+        return ($svg = $this->pngFlag($width)) ? file_get_contents($svg) : null;
+    }
+
+    /**
+     * Convert the given code to a Country, or throw an exception
+     *
+     * @param string $code
+     * @return Country
+     * @throws InvalidArgumentException
+     */
+    public static function fromCode(string $code): Country
+    {
+        foreach (static::cases() as $country) {
+            if ($country->code() === $code) {
+                return $country;
+            }
+        }
+
+        throw new InvalidArgumentException('Invalid Country Enum code');
+    }
+
+    /**
+     * Try to convert the given code to a Country, null if not valid
+     *
+     * @param string $code
+     * @return Country|null
+     */
+    public static function tryFromCode(string $code): Country
+    {
+        try {
+            return static::fromCode($code);
+        } catch (InvalidArgumentException $e) {
+            return null;
+        }
     }
 
     /**
@@ -557,11 +681,11 @@ enum Country: string
     }
 
     /**
-     * Get the sort key (English-version snake_case) for this Country
+     * Get the code (English-version snake_case) for this Country
      *
      * @return string
      */
-    public function sortKey(): string
+    public function code(): string
     {
         return match ($this) {
             static::AF => "afghanistan",
@@ -614,11 +738,11 @@ enum Country: string
             static::CC => "cocos_keeling_islands",
             static::CO => "colombia",
             static::KM => "comoros",
-            static::CG => "congo_republic_of_the_brazzaville",
-            static::CD => "congo_the_democratic_republic_of_the_kinshasa",
+            static::CG => "republic_of_the_brazzaville_congo",
+            static::CD => "the_democratic_republic_of_the_kinshasa_congo",
             static::CK => "cook_islands",
             static::CR => "costa_rica",
-            static::CI => "cote_divoire_republic_of",
+            static::CI => "republic_of_cote_divoire",
             static::HR => "croatia",
             static::CU => "cuba",
             static::CW => "curacao",
@@ -644,7 +768,7 @@ enum Country: string
             static::PF => "french_polynesia",
             static::TF => "french_southern_and_antarctic_lands",
             static::GA => "gabon",
-            static::GM => "gambia_the",
+            static::GM => "the_gambia",
             static::GE => "georgia",
             static::DE => "germany",
             static::GH => "ghana",
@@ -668,7 +792,7 @@ enum Country: string
             static::IS => "iceland",
             static::IN => "india",
             static::ID => "indonesia",
-            static::IR => "iran_islamic_republic_of",
+            static::IR => "islamic_republic_of_iran",
             static::IQ => "iraq",
             static::IE => "ireland",
             static::IM => "isle_of_man",
@@ -681,8 +805,8 @@ enum Country: string
             static::KZ => "kazakhstan",
             static::KE => "kenya",
             static::KI => "kiribati",
-            static::KP => "korea_democratic_peoples_republic_of",
-            static::KR => "korea_republic_of",
+            static::KP => "democratic_peoples_republic_of_korea",
+            static::KR => "republic_of_korea",
             static::XK => "kosovo",
             static::KW => "kuwait",
             static::KG => "kyrgyzstan",
@@ -696,7 +820,7 @@ enum Country: string
             static::LT => "lithuania",
             static::LU => "luxembourg",
             static::MO => "macao",
-            static::MK => "macedonia_republic_of",
+            static::MK => "republic_of_macedonia",
             static::MG => "madagascar",
             static::MW => "malawi",
             static::MY => "malaysia",
@@ -709,7 +833,7 @@ enum Country: string
             static::MU => "mauritius",
             static::YT => "mayotte",
             static::MX => "mexico",
-            static::FM => "micronesia_federated_states_of",
+            static::FM => "federated_states_of_micronesia",
             static::MD => "moldova",
             static::MC => "monaco",
             static::MN => "mongolia",
@@ -734,7 +858,7 @@ enum Country: string
             static::OM => "oman",
             static::PK => "pakistan",
             static::PW => "palau",
-            static::PS => "palestine_state_of",
+            static::PS => "state_of_palestine",
             static::PA => "panama",
             static::PG => "papua_new_guinea",
             static::PY => "paraguay",
@@ -783,7 +907,7 @@ enum Country: string
             static::SY => "syrian_arab_republic",
             static::TW => "taiwan",
             static::TJ => "tajikistan",
-            static::TZ => "tanzania_united_republic_of",
+            static::TZ => "united_republic_of_tanzania",
             static::TH => "thailand",
             static::TL => "timor_leste",
             static::TG => "togo",
@@ -804,7 +928,7 @@ enum Country: string
             static::UY => "uruguay",
             static::UZ => "uzbekistan",
             static::VU => "vanuatu",
-            static::VE => "venezuela_bolivarian_republic_of",
+            static::VE => "bolivarian_republic_of_venezuela",
             static::VN => "vietnam",
             static::VG => "virgin_islands_british",
             static::VI => "virgin_islands_us",
@@ -814,41 +938,5 @@ enum Country: string
             static::ZM => "zambia",
             static::ZW => "zimbabwe",
         };
-    }
-
-    /**
-     * Get all available country codes
-     *
-     * @return array
-     */
-    public static function getValues(): array
-    {
-        return array_map(fn(Country $country) => $country->value, Country::cases());
-    }
-
-    /**
-     * Get all available region codes for the given country
-     *
-     * @return array
-     */
-    public function getRegionValues(): array
-    {
-        return array_map(fn(Region $region) => $region->value, $this->regions());
-    }
-
-    /**
-     * Get all options in key-value (code => label) pairs
-     *
-     * @return array
-     */
-    public static function getOptions(): array
-    {
-        $options = [];
-
-        foreach (Country::cases() as $country) {
-            $options[$country->value] = $country->label();
-        }
-
-        return $options;
     }
 }

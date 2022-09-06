@@ -299,27 +299,32 @@ function snake_case(string $string): string
     return $string;
 }
 
+function countryName(string $label): string
+{
+    if (preg_match('/^(.+), (.+ of.*)$/i', $label, $m)) {
+        $label = ucfirst($m[2]) . ' ' . $m[1];
+    } elseif (preg_match('/^(.+), (the.*)$/i', $label, $m)) {
+        $label = ucfirst($m[2]) . ' ' . $m[1];
+    }
+
+    return $label;
+}
+
 // Generate Country Enum class
 $countryStub = file_get_contents(STUB_COUNTRY);
 $countryLines = array_map(
     function ($line) use ($data) {
-        if (preg_match('/\{(SHORT|LABEL)\}/i', $line, $matches)) {
+        if (preg_match('/\{(SHORT|LABEL|CODE|BREAK)\}/i', $line, $matches)) {
             $lines = [];
 
             foreach ($data as $country) {
                 $short = $country['countryShortCode'];
-                $label = $country['countryName'];
-                $sortKey = snake_case($label);
-
-                if (preg_match('/^(.+), (.+ of.*)$/i', $label, $m)) {
-                    $label = ucfirst($m[2]) . ' ' . $m[1];
-                } elseif (preg_match('/^(.+), (the.*)$/i', $label, $m)) {
-                    $label = ucfirst($m[2]) . ' ' . $m[1];
-                }
+                $label = countryName($country['countryName']);
+                $code = snake_case($label);
 
                 $lines[] = str_replace(
-                    ['{SHORT}', '{LABEL}', '{SORTKEY}', '{BREAK}'],
-                    [$short, $label, $sortKey, "\n"],
+                    ['{SHORT}', '{LABEL}', '{CODE}', '{BREAK}'],
+                    [$short, $label, $code, "\n"],
                     $line,
                 );
             }
@@ -333,11 +338,11 @@ $countryLines = array_map(
 );
 file_put_contents(__DIR__ . '/../src/Country.php', implode(PHP_EOL, $countryLines));
 
-// Generate Country Enum class
+// Generate Region Enum class
 $regionStub = file_get_contents(STUB_REGION);
 $regionLines = array_map(
     function ($line) use ($data) {
-        if (preg_match('/\{(SHORT|LABEL)\}/i', $line, $matches)) {
+        if (preg_match('/\{(SHORT|LABEL|CODE|BREAK|COUNTRY)\}/i', $line, $matches)) {
             $lines = [];
 
             foreach ($data as $country) {
@@ -357,13 +362,14 @@ $regionLines = array_map(
                         continue;
                     }
 
+                    $countryLabel = countryName($country['countryName']);
                     $short = $country['countryShortCode'] . '_' . $region['shortCode'];
                     $label = $region['name'];
-                    $sortKey = snake_case($label);
+                    $code = snake_case($label);
 
                     $lines[] = str_replace(
-                        ['{SHORT}', '{LABEL}', '{SORTKEY}', '{BREAK}'],
-                        [$short, $label, $sortKey, "\n"],
+                        ['{SHORT}', '{PAD}', '{LABEL}', '{CODE}', '{BREAK}', '{COUNTRY}'],
+                        [$short, str_pad('', 6 - strlen($short), ' ', STR_PAD_RIGHT), $label, $code, "\n", $countryLabel],
                         $line,
                     );
                 }

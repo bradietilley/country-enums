@@ -1,5 +1,8 @@
-# country-enums
+# PHP Country (and Region) Enums
+
 All (or at least most) countries and their regions formatted as PHP enums.
+
+Includes automatic relationships between Countries and Regions, and comes out of the box with svg & png flags. See Authors section for due credit.
 
 
 ## Usage
@@ -18,9 +21,13 @@ $country = Country::from('US');
 | ----------------------------------------|----------------------------------------------------|-------------------------------------------------------------|-----------------------------|
 | $country->value                         | Get the two-letter code                            | "US"                                                        | string                      |
 | $country->label()                       | Get the human-readable label                       | "United States"                                             | string                      |
-| $country->sortKey()                     | Get the English snake_case key for sorting         | "united_states"                                             | string                      |
+| $country->code()                        | Get the English snake_case code name               | "united_states"                                             | string                      |
 | $country->regions()                     | Get all regions in the country                     | [ Region::US_AL, ..., Region::US_WY ]                       | Region[]                    |
-| $country->toArray()                     | Compile the Country enum to array                  | [ 'value' => 'US', 'label' => 'United States', 'sort' => 'united_states', 'regions' => [ [...], ... [...] ] ] | array            |
+| $country->toArray()                     | Compile the Country enum to array                  | [ 'value' => 'US', 'label' => 'United States', 'code' => 'united_states', 'regions' => [ [...], ... [...] ] ] | array            |
+| $country->svgFlag()                     | Get the *path* to the SVG Flag                     | /var/www/.../country-enums/country-flags/svg/us.svg         | string\|null                 |
+| $country->svgFlagContent()              | Get the *content* of the SVG Flag (XML)            | *xml content of svg*                                        | string\|null                 |
+| $country->pngFlag(int $size = 100)      | Get the *path* to the PNG Flag for the given size (100, 250, 1000)  | /var/www/.../country-enums/country-flags/png250px/us.png         | string\|null                 |
+| $country->pngFlagContent(int $size = 100) | Get the *content* of the PNG Flag for the given size (100, 250, 1000)  | *binary content of png*               | string\|null                 |
 | Country::random()                       | Get a random country                               | Country::NZ                                                 | Country                     |
 | Country::getValues()                    | Get a list of available "values"                   | [ "AF", ..., "ZW" ]                                         | string[]                    |
 | Country::getOptions()                   | Get a list of available options (key val pairs)    | [ "AF" => "Afghanistan", ..., "ZW" => "Zimbabwe" ]          | array                       |
@@ -30,6 +37,7 @@ $country = Country::from('US');
 
 
 When a country is compile to array, all of its regions are casted to array aswell and are made available in the 'regions' array.
+
 
 #### Region Enum
 
@@ -45,11 +53,11 @@ $region = Country::from('US_CA');
 | ----------------------------------------|----------------------------------------------------|-------------------------------------------------------------|-----------------------------|
 | $region->value                          | Get the code                                       | "US_CA"                                                     | string                      |
 | $region->label()                        | Get the human-readable label                       | "California"                                                | string                      |
-| $region->sortKey()                      | Get the English snake_case key for sorting         | "california"                                                | string                      |
+| $region->code()                         | Get the English snake_case code name               | "california"                                                | string                      |
 | $region->country()                      | Get the country for this region                    | Country::US                                                 | Country                     |
 | $region->countryCode()                  | Get the country code for this region               | "US"                                                        | string                      |
 | $region->regionCode()                   | Get the region code for this region                | "CA"                                                        | string                      |
-| $region->toArray()                      | Compile the Region enum to array                   | [ 'value' => 'US_CA', 'label' => 'California', 'sort' => 'california', 'country' => 'US', 'region' => 'CA' ] | array           | 
+| $region->toArray()                      | Compile the Region enum to array                   | [ 'value' => 'US_CA', 'label' => 'California', 'code' => 'california', 'country' => 'US', 'region' => 'CA' ] | array           | 
 | Region::for(Country\|string $country)   | Get a list of regions in the given country         | [ Region::US_AL, ..., Region::US_WY ]                       | Region[]                    |
 | Region::random(Country\|string $country)| Get a random regions in the given country          | Region::US_TX                                               | Region                      |
 | Region::getValues()                     | Get a list of available "values"                   | [ "AL", ..., "WY" ]                                         | string[]                    |
@@ -60,3 +68,16 @@ $region = Country::from('US_CA');
 
 
 When a region is compiled to array, its region and country codes are made available as separate key-value pairs alongside the globally-unique "value" (see above).
+
+
+# Authors
+
+PHP Enum classes generated by Bradie Tilley.
+
+
+### Specials Thanks
+
+Thanks to all the people who have contributed to the following open source repositories
+
+- Country/Region Data: https://github.com/country-regions/country-region-data
+- SVG/PNG Flags: https://github.com/hampusborgos/country-flags
