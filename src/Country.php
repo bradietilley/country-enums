@@ -1,6 +1,6 @@
 <?php
 
-namespace Tilley\CountryEnums;
+namespace CountryEnums;
 
 enum Country: string
 {

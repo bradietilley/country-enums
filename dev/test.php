@@ -1,7 +1,7 @@
 <?php
 
-use Tilley\CountryEnums\Country;
-use Tilley\CountryEnums\Region;
+use CountryEnums\Country;
+use CountryEnums\Region;
 
 function dd()
 {
