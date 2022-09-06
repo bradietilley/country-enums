@@ -23,7 +23,10 @@ $country = Country::from('US');
 | $country->toArray()                     | Compile the Country enum to array                  | [ 'value' => 'US', 'label' => 'United States', 'sort' => 'united_states', 'regions' => [ [...], ... [...] ] ] | array            |
 | Country::random()                       | Get a random country                               | Country::NZ                                                 | Country                     |
 | Country::getValues()                    | Get a list of available "values"                   | [ "AF", ..., "ZW" ]                                         | string[]                    |
-| Country::getOptions()                   | Get a list of available options (key val pairs)    | [ "AF" => "Afghanistan", ..., "ZW" => "Zimbabwe" ]          | array                    |
+| Country::getOptions()                   | Get a list of available options (key val pairs)    | [ "AF" => "Afghanistan", ..., "ZW" => "Zimbabwe" ]          | array                       |
+| Country::cases()                        | Core-PHP function to get all enum cases            | [ Country::AF, ..., Country::ZW ]                           | Country[]                   |
+| Country::from(string $value (e.g. 'NZ'))     | Core-PHP function to convert value to enum         | Country::NZ (or throws exception if invalid)                | Country                     |
+| Country::tryFrom(string $value (e.g. 'NZ'))  | Core-PHP function to convert value to enum (/null) | Country::NZ (or null if invalid)                            | Country|null                |
 
 
 When a country is compile to array, all of its regions are casted to array aswell and are made available in the 'regions' array.
@@ -50,7 +53,10 @@ $region = Country::from('US_CA');
 | Region::for(Country\|string $country)   | Get a list of regions in the given country         | [ Region::US_AL, ..., Region::US_WY ]                       | Region[]                    |
 | Region::random(Country\|string $country)| Get a random regions in the given country          | Region::US_TX                                               | Region                      |
 | Region::getValues()                     | Get a list of available "values"                   | [ "AL", ..., "WY" ]                                         | string[]                    |
-| Region::getOptions()                    | Get a list of available options (key val pairs)    | [ "AL" => "Alabama", ..., "WY" => "Wyoming" ]               | array                    |
+| Region::getOptions()                    | Get a list of available options (key val pairs)    | [ "AL" => "Alabama", ..., "WY" => "Wyoming" ]               | array                       |
+| Region::cases()                         | Core-PHP function to get all enum cases            | [ Region::AF_BDS, ..., Region::ZW_MI ]                      | Region[]                    |
+| Region::from(string $val (e.g. 'NZ_AUK'))    | Core-PHP function to convert value to enum         | Region::NZ_AUK (or throws exception if invalid)             | Region                      |
+| Region::tryFrom(string $val (e.g. 'NZ_AUK')) | Core-PHP function to convert value to enum (/null) | Region::NZ_AUK (or null if invalid)                         | Region|null                 |
 
 
 When a region is compiled to array, its region and country codes are made available as separate key-value pairs alongside the globally-unique "value" (see above).
