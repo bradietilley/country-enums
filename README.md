@@ -58,10 +58,10 @@ $region = Country::from('US_CA');
 | $region->countryCode()                  | Get the country code for this region               | "US"                                                        | string                      |
 | $region->regionCode()                   | Get the region code for this region                | "CA"                                                        | string                      |
 | $region->toArray()                      | Compile the Region enum to array                   | [ 'value' => 'US_CA', 'label' => 'California', 'code' => 'california', 'country' => 'US', 'region' => 'CA' ] | array           | 
-| Region::for(Country\|string $country)   | Get a list of regions in the given country         | [ Region::US_AL, ..., Region::US_WY ]                       | Region[]                    |
-| Region::random(Country\|string $country)| Get a random regions in the given country          | Region::US_TX                                               | Region                      |
-| Region::getValues()                     | Get a list of available "values"                   | [ "AL", ..., "WY" ]                                         | string[]                    |
-| Region::getOptions()                    | Get a list of available options (key val pairs)    | [ "AL" => "Alabama", ..., "WY" => "Wyoming" ]               | array                       |
+| Region::for(Country\|string $country)   | Get a list of regions (in the given $country if provided)         | [ Region::US_AL, ..., Region::US_WY ]                       | Region[]                    |
+| Region::random(Country\|string\|null $country)| Get a random region (in the given $country if provided)          | Region::US_TX                                               | Region                      |
+| Region::getValues(Country\|string\|null $country)                     | Get a list of available "values"                   | [ "AL", ..., "WY" ]                                         | string[]                    |
+| Region::getOptions(Country\|string\|null $country)                    | Get a list of available options (key val pairs)    | [ "AL" => "Alabama", ..., "WY" => "Wyoming" ]               | array                       |
 | Region::cases()                         | Core-PHP function to get all enum cases            | [ Region::AF_BDS, ..., Region::ZW_MI ]                      | Region[]                    |
 | Region::from(string $val (e.g. 'NZ_AUK'))    | Core-PHP function to convert value to enum         | Region::NZ_AUK (or throws exception if invalid)             | Region                      |
 | Region::tryFrom(string $val (e.g. 'NZ_AUK')) | Core-PHP function to convert value to enum (/null) | Region::NZ_AUK (or null if invalid)                         | Region\|null                |
