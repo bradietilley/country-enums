@@ -13,5 +13,13 @@
             "name": "Bradie Tilley",
             "homepage": "https://github.com/bradietilley"
         }
-    ]
+    ],
+    "require-dev": {
+        "pestphp/pest": "^1.22"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }
