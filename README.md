@@ -36,7 +36,7 @@ $country = Country::from('US');
 | Country::tryFrom(string $value (e.g. 'NZ'))  | Core-PHP function to convert value to enum (/null) | Country::NZ (or null if invalid)                            | Country\|null               |
 
 
-When a country is compiled to array, all of its regions are casted to array aswell and are made available in the 'regions' array.
+When a country is compiled to array, all of its regions are casted to array as well and are made available in the 'regions' array.
 
 
 #### Region Enum
