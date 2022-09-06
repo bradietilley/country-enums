@@ -411,7 +411,7 @@ enum Country: string
      * @param string $code
      * @return Country|null
      */
-    public static function tryFromCode(string $code): Country
+    public static function tryFromCode(string $code): ?Country
     {
         try {
             return static::fromCode($code);
