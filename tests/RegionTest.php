@@ -42,6 +42,20 @@ it('can retrieve all region values', function () {
     expect(count($all))->toBeGreaterThanOrEqual(2000)->toBeLessThanOrEqual(3000);
 });
 
+it('can retrieve all region values by country', function () {
+    $all = Region::getValues('AU');
+    $all2 = Region::getValues(Country::AU);
+
+    expect($all)->toBe($all2);
+
+    // Assert first and last are as expected
+    expect($all[0])->toBe(Region::AU_ACT->value);
+    expect($all[count($all) - 1])->toBe(Region::AU_WA->value);
+
+    // Assert count is correct
+    expect(count($all))->toBe(8);
+});
+
 it('can retrieve all options', function () {
     $all = Region::getOptions();
 
@@ -52,8 +66,34 @@ it('can retrieve all options', function () {
     expect($all[array_key_first($all)])->toBe(Region::AF_BDS->label());
     expect($all[array_key_last($all)])->toBe(Region::ZW_MI->label());
 
-    // Rought check is fine
+    // Rough check is fine
     expect(count($all))->toBeGreaterThanOrEqual(2000)->toBeLessThanOrEqual(3000);
+});
+
+it('can retrieve all options by country', function () {
+    $all = Region::getOptions('AU');
+    $all2 = Region::getOptions(Country::AU);
+
+    expect($all)->toBe($all2);
+
+    // Assert keys of array are values
+    expect($all)->toBe([
+        Region::AU_ACT->value => Region::AU_ACT->label(),
+        Region::AU_NSW->value => Region::AU_NSW->label(),
+        Region::AU_NT->value => Region::AU_NT->label(),
+        Region::AU_QLD->value => Region::AU_QLD->label(),
+        Region::AU_SA->value => Region::AU_SA->label(),
+        Region::AU_TAS->value => Region::AU_TAS->label(),
+        Region::AU_VIC->value => Region::AU_VIC->label(),
+        Region::AU_WA->value => Region::AU_WA->label(),
+    ]);
+
+    // Assert values of array are labels
+    expect($all[array_key_first($all)])->toBe(Region::AU_ACT->label());
+    expect($all[array_key_last($all)])->toBe(Region::AU_WA->label());
+
+    // Assert count is correct
+    expect(count($all))->toBe(8);
 });
 
 it('can retrieve country by region', function () {
@@ -67,4 +107,31 @@ it('can retrieve a region by its code', function () {
     expect(Region::fromCode('new_zealand_auckland'))->toBe(Region::NZ_AUK);
     expect(Region::fromCode('united_states_california'))->toBe(Region::US_CA);
     expect(Region::tryFromCode('united_states_ssssss'))->toBe(null);
+});
+
+it('can retrieve a list of regions by country code', function () {
+    $expect1 = Region::for('AU');
+    $expect2 = Region::for(Country::AU);
+
+    expect($expect1)->toBe($expect2);
+    expect($expect1)->toBe([
+        Region::AU_ACT,
+        Region::AU_NSW,
+        Region::AU_NT,
+        Region::AU_QLD,
+        Region::AU_SA,
+        Region::AU_TAS,
+        Region::AU_VIC,
+        Region::AU_WA,
+    ]);
+});
+
+it('can compile a country to array', function () {
+    expect(Region::AU_NSW->toArray())->toBe([
+        'label' => 'New South Wales',
+        'value' => 'AU_NSW',
+        'region' => 'NSW',
+        'country' => 'AU',
+        'code' => 'australia_new_south_wales',
+    ]);
 });

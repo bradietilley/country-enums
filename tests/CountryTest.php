@@ -52,7 +52,7 @@ it('can retrieve all options', function () {
     expect($all[array_key_first($all)])->toBe(Country::AF->label());
     expect($all[array_key_last($all)])->toBe(Country::ZW->label());
 
-    // Rought check is fine
+    // Rough check is fine
     expect(count($all))->toBeGreaterThanOrEqual(245)->toBeLessThanOrEqual(255);
 });
 
@@ -125,4 +125,70 @@ it('can retrieve a country by its code', function () {
     expect(Country::fromCode('new_zealand'))->toBe(Country::NZ);
     expect(Country::fromCode('united_states'))->toBe(Country::US);
     expect(Country::tryFromCode('united_statessss'))->toBe(null);
+});
+
+it('can compile a country to array', function () {
+    expect(Country::AU->toArray())->toBe([
+        'label' => 'Australia',
+        'value' => 'AU',
+        'regions' => [
+            [
+                'label' => 'Australian Capital Territory',
+                'value' => 'AU_ACT',
+                'region' => 'ACT',
+                'country' => 'AU',
+                'code' => 'australia_australian_capital_territory',
+            ],
+            [
+                'label' => 'New South Wales',
+                'value' => 'AU_NSW',
+                'region' => 'NSW',
+                'country' => 'AU',
+                'code' => 'australia_new_south_wales',
+            ],
+            [
+                'label' => 'Northern Territory',
+                'value' => 'AU_NT',
+                'region' => 'NT',
+                'country' => 'AU',
+                'code' => 'australia_northern_territory',
+            ],
+            [
+                'label' => 'Queensland',
+                'value' => 'AU_QLD',
+                'region' => 'QLD',
+                'country' => 'AU',
+                'code' => 'australia_queensland',
+            ],
+            [
+                'label' => 'South Australia',
+                'value' => 'AU_SA',
+                'region' => 'SA',
+                'country' => 'AU',
+                'code' => 'australia_south_australia',
+            ],
+            [
+                'label' => 'Tasmania',
+                'value' => 'AU_TAS',
+                'region' => 'TAS',
+                'country' => 'AU',
+                'code' => 'australia_tasmania',
+            ],
+            [
+                'label' => 'Victoria',
+                'value' => 'AU_VIC',
+                'region' => 'VIC',
+                'country' => 'AU',
+                'code' => 'australia_victoria',
+            ],
+            [
+                'label' => 'Western Australia',
+                'value' => 'AU_WA',
+                'region' => 'WA',
+                'country' => 'AU',
+                'code' => 'australia_western_australia',
+            ],
+        ],
+        'code' => 'australia',
+    ]);
 });
