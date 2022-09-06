@@ -365,7 +365,7 @@ $regionLines = array_map(
                     $countryLabel = countryName($country['countryName']);
                     $short = $country['countryShortCode'] . '_' . $region['shortCode'];
                     $label = $region['name'];
-                    $code = snake_case($label);
+                    $code = snake_case($countryLabel . ' ' . $label);
 
                     $lines[] = str_replace(
                         ['{SHORT}', '{PAD}', '{LABEL}', '{CODE}', '{BREAK}', '{COUNTRY}'],

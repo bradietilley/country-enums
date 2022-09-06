@@ -144,7 +144,7 @@ enum Region: string
      * @param string $code
      * @return Region|null
      */
-    public static function tryFromCode(string $code): Region
+    public static function tryFromCode(string $code): ?Region
     {
         try {
             return static::fromCode($code);
