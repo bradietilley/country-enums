@@ -237,3 +237,21 @@ it('will throw an exception when country::enumRule is run without laravel', func
         Country::enumRule();
     })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Validation\\Rules\\Enum does not exist (Laravel is required to run this function)');
 });
+
+it('will throw an exception when country::collectOptions is run without laravel', function () {
+    expect(function () {
+        Country::collectOptions();
+    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
+});
+
+it('will throw an exception when country::collectValues is run without laravel', function () {
+    expect(function () {
+        Country::collectValues();
+    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
+});
+
+it('will throw an exception when country::collectRegionValues is run without laravel', function () {
+    expect(function () {
+        Country::AU->collectRegionValues();
+    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
+});

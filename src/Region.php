@@ -2450,6 +2450,22 @@ enum Region: string
     }
 
     /**
+     * Get the regions in the given country as a collection
+     *
+     * @requires Laravel
+     * @param string|Country $country
+     * @return Collection
+     */
+    public static function collectFor(string|Country $country): Collection
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make(static::for($country));
+    }
+
+    /**
      * Get a random Region
      *
      * @return Region
@@ -2479,6 +2495,22 @@ enum Region: string
     }
 
     /**
+     * Get all available region codes (optionally scoped by country) as a collection
+     *
+     * @requires Laravel
+     * @param string|Country|null $country
+     * @return Collection
+     */
+    public static function collectValues(string|Country $country = null): Collection
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make(static::getValues($country));
+    }
+
+    /**
      * Get all options in key-value (code => label) pairs
      *
      * @return array
@@ -2500,6 +2532,22 @@ enum Region: string
         }
 
         return $options;
+    }
+
+    /**
+     * Get all available region codes (optionally scoped by country) as a collection
+     *
+     * @requires Laravel
+     * @param string|Country|null $country
+     * @return Collection
+     */
+    public static function collectOptions(string|Country $country = null): Collection
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make(static::getOptions($country));
     }
 
     /**
@@ -2541,7 +2589,7 @@ enum Region: string
      * @requires Laravel
      * @return \Ilumminate\Support\Collection<Region>
      */
-    public static function collect()
+    public static function collect(): Collection
     {
         if (!class_exists(Collection::class)) {
             throw LaravelNotFoundException::classMissing(Collection::class);
@@ -2555,7 +2603,7 @@ enum Region: string
      *
      * @return \Illuminate\Validation\Rules\Enum
      */
-    public static function enumRule()
+    public static function enumRule(): Enum
     {
         if (!class_exists(Enum::class)) {
             throw LaravelNotFoundException::classMissing(Enum::class);
@@ -2569,7 +2617,7 @@ enum Region: string
      *
      * @return \Illuminate\Validation\Rules\In
      */
-    public static function inRule(string|Country|null $country = null)
+    public static function inRule(string|Country|null $country = null): In
     {
         if (!class_exists(In::class)) {
             throw LaravelNotFoundException::classMissing(In::class);

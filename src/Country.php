@@ -304,13 +304,28 @@ enum Country: string
     }
 
     /**
-     * Get all available country codes
+     * Get all available country values (e.g. 'AU')
      *
      * @return array
      */
     public static function getValues(): array
     {
         return array_map(fn(Country $country) => $country->value, static::cases());
+    }
+
+    /**
+     * Get all available country values (e.g. 'AU') as a collection
+     *
+     * @requires Laravel
+     * @return Collection
+     */
+    public static function collectValues(): Collection
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make(static::getValues());
     }
 
     /**
@@ -321,6 +336,21 @@ enum Country: string
     public function getRegionValues(): array
     {
         return array_map(fn(Region $region) => $region->value, $this->regions());
+    }
+
+    /**
+     * Get all available region codes for the given country as a collection
+     *
+     * @requires Laravel
+     * @return Collection
+     */
+    public function collectRegionValues(): Collection
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make($this->getRegionValues());
     }
 
     /**
@@ -337,6 +367,21 @@ enum Country: string
         }
 
         return $options;
+    }
+
+    /**
+     * Get all options in key-value (code => label) pairs as a collection
+     *
+     * @requires Laravel
+     * @return Collection
+     */
+    public static function collectOptions(): Collection
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make(static::getOptions());
     }
 
     /**
@@ -431,7 +476,7 @@ enum Country: string
      * @requires Laravel
      * @return \Ilumminate\Support\Collection<Country>
      */
-    public static function collect()
+    public static function collect(): Collection
     {
         if (!class_exists(Collection::class)) {
             throw LaravelNotFoundException::classMissing(Collection::class);
@@ -445,7 +490,7 @@ enum Country: string
      *
      * @return \Illuminate\Validation\Rules\Enum
      */
-    public static function enumRule()
+    public static function enumRule(): Enum
     {
         if (!class_exists(Enum::class)) {
             throw LaravelNotFoundException::classMissing(Enum::class);
@@ -459,7 +504,7 @@ enum Country: string
      *
      * @return \Illuminate\Validation\Rules\In
      */
-    public static function inRule()
+    public static function inRule(): In
     {
         if (!class_exists(In::class)) {
             throw LaravelNotFoundException::classMissing(In::class);

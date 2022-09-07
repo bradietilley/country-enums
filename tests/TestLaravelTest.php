@@ -24,6 +24,60 @@ it('will return a collection when region::collect is run with laravel', function
     expect($collection->items)->toBe(Region::cases());
 });
 
+it('will return a collection when country::collectOptions is run with laravel', function () {
+    require_once __DIR__ . '/fixtures/Laravel/Collection.php';
+
+    $collection = Country::collectOptions();
+
+    expect($collection instanceof Collection)->toBeTrue();
+    expect($collection->items)->toBe(Country::getOptions());
+});
+
+it('will return a collection when region::collectOptions is run with laravel', function () {
+    require_once __DIR__ . '/fixtures/Laravel/Collection.php';
+
+    $collection = Region::collectOptions();
+
+    expect($collection instanceof Collection)->toBeTrue();
+    expect($collection->items)->toBe(Region::getOptions());
+});
+
+it('will return a collection when country::collectValues is run with laravel', function () {
+    require_once __DIR__ . '/fixtures/Laravel/Collection.php';
+
+    $collection = Country::collectValues();
+
+    expect($collection instanceof Collection)->toBeTrue();
+    expect($collection->items)->toBe(Country::getValues());
+});
+
+it('will return a collection when region::collectValues is run with laravel', function () {
+    require_once __DIR__ . '/fixtures/Laravel/Collection.php';
+
+    $collection = Region::collectValues();
+
+    expect($collection instanceof Collection)->toBeTrue();
+    expect($collection->items)->toBe(Region::getValues());
+});
+
+it('will return a collection when country::collectRegionValues is run with laravel', function () {
+    require_once __DIR__ . '/fixtures/Laravel/Collection.php';
+
+    $collection = Country::AU->collectRegionValues();
+
+    expect($collection instanceof Collection)->toBeTrue();
+    expect($collection->items)->toBe(Country::AU->getRegionValues());
+});
+
+it('will return a collection when region::collecFor is run with laravel', function () {
+    require_once __DIR__ . '/fixtures/Laravel/Collection.php';
+
+    $collection = Region::collectFor(Country::AU);
+
+    expect($collection instanceof Collection)->toBeTrue();
+    expect($collection->items)->toBe(Region::for('AU'));
+});
+
 it('will return an In Rule class when country::inRule is run with laravel', function () {
     require_once __DIR__ . '/fixtures/Laravel/In.php';
 
