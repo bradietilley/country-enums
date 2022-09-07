@@ -4,7 +4,6 @@ namespace CountryEnums;
 
 use CountryEnums\Exceptions\EnumNotFoundException;
 use CountryEnums\Exceptions\LaravelNotFoundException;
-use InvalidArgumentException;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\In;
@@ -398,7 +397,7 @@ enum Country: string
      *
      * @param string $code
      * @return Country
-     * @throws InvalidArgumentException
+     * @throws EnumNotFoundException
      */
     public static function fromCode(string $code): Country
     {
@@ -408,7 +407,7 @@ enum Country: string
             }
         }
 
-        throw new InvalidArgumentException('Invalid Country Enum code');
+        throw EnumNotFoundException::codeNotFound($code, 'Country');
     }
 
     /**
@@ -421,7 +420,7 @@ enum Country: string
     {
         try {
             return static::fromCode($code);
-        } catch (InvalidArgumentException $e) {
+        } catch (EnumNotFoundException $e) {
             return null;
         }
     }
@@ -479,7 +478,7 @@ enum Country: string
     public static function parse(string|Country|null $value): Country
     {
         if ($value === null) {
-            throw EnumNotFoundException::notFound($value, 'Country');
+            throw EnumNotFoundException::valueNotFound($value, 'Country');
         }
 
         if ($value instanceof Country) {
@@ -489,7 +488,7 @@ enum Country: string
         try {
             return static::from($value);
         } catch (ValueError $e) {
-            throw EnumNotFoundException::notFound($value, 'Country');
+            throw EnumNotFoundException::valueNotFound($value, 'Country');
         }
     }
 

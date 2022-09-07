@@ -2517,7 +2517,7 @@ enum Region: string
             }
         }
 
-        throw EnumNotFoundException::notFound($code, 'Region');
+        throw EnumNotFoundException::codeNotFound($code, 'Region');
     }
 
     /**
@@ -2588,7 +2588,7 @@ enum Region: string
     public static function parse(string|Region|null $value): Region
     {
         if ($value === null) {
-            throw EnumNotFoundException::notFound($value, 'Region');;
+            throw EnumNotFoundException::valueNotFound($value, 'Region');;
         }
 
         if ($value instanceof Region) {
@@ -2598,7 +2598,7 @@ enum Region: string
         try {
             return static::from($value);
         } catch (ValueError $e) {
-            throw EnumNotFoundException::notFound($value, 'Region');
+            throw EnumNotFoundException::valueNotFound($value, 'Region');
         }
     }
 
