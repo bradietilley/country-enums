@@ -25,9 +25,9 @@ $country = Country::from('US');
 | $country->regions() | Get all regions in the country | [ Region::US_AL, ..., Region::US_WY ] | Region[] |
 | $country->toArray() | Compile the Country enum to array | [ 'value' => 'US', 'label' => 'United States', 'code' => 'united_states', 'regions' => [ [...], ... [...] ] ] | array |
 | $country->toJson($options = 0) | Compile the Country enum to a JSON string | json_encode($country->toArray(), $options = 0) | string |
-| $country->svgFlag() | Get the *path* to the SVG Flag | /var/www/.../country-enums/country-flags/svg/us.svg | string\|null |
+| $country->svgFlag() | Get the *path* to the SVG Flag | /var/www/.../country-enums/flags/svg/us.svg | string\|null |
 | $country->svgFlagContent() | Get the *content* of the SVG Flag (XML) | *xml content of svg* | string\|null |
-| $country->pngFlag(int $size = 100) | Get the *path* to the PNG Flag for the given size (100, 250, 1000)  | /var/www/.../country-enums/country-flags/png250px/us.png | string\|null |
+| $country->pngFlag(int $size = 100) | Get the *path* to the PNG Flag for the given size (100, 250, 1000)  | /var/www/.../country-enums/flags/png250px/us.png | string\|null |
 | $country->pngFlagContent(int $size = 100) | Get the *content* of the PNG Flag for the given size (100, 250, 1000)  | *binary content of png* | string\|null |
 | Country::random() | Get a random country | Country::NZ | Country |
 | Country::getValues() | Get a list of available "values" | [ "AF", ..., "ZW" ] | string[] |

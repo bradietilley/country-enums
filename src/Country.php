@@ -346,7 +346,7 @@ enum Country: string
      */
     public function svgFlag(): string
     {
-        $path = sprintf(__DIR__ . '/../country-flags/svg/%s.svg', strtolower($this->value));
+        $path = sprintf(__DIR__ . '/../flags/svg/%s.svg', strtolower($this->value));
 
         return ($path = realpath($path)) ? $path : null;
     }
@@ -377,7 +377,7 @@ enum Country: string
             $width = 100;
         }
 
-        $path = sprintf(__DIR__ . '/../country-flags/png%dpx/%s.png', $width, strtolower($this->value));
+        $path = sprintf(__DIR__ . '/../flags/png%dpx/%s.png', $width, strtolower($this->value));
 
         return ($path = realpath($path)) ? $path : null;
     }
