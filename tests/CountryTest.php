@@ -255,3 +255,9 @@ it('will throw an exception when country::collectRegionValues is run without lar
         Country::AU->collectRegionValues();
     })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
 });
+
+it('will throw an exception when country::collectionRegions is run without laravel', function () {
+    expect(function () {
+        Country::AU->collectRegions();
+    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
+});

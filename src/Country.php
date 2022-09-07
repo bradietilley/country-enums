@@ -277,6 +277,21 @@ enum Country: string
     }
 
     /**
+     * Get all the regions that belong to this country
+     *
+     * @requires Laravel
+     * @return Collection<Region>
+     */
+    public function collectRegions(): Collection
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make($this->regions());
+    }
+
+    /**
      * Cast this Country to array format
      *
      * @return array

@@ -60,6 +60,15 @@ it('will return a collection when region::collectValues is run with laravel', fu
     expect($collection->items)->toBe(Region::getValues());
 });
 
+it('will return a collection when country::collectRegions is run with laravel', function () {
+    require_once __DIR__ . '/fixtures/Laravel/Collection.php';
+
+    $collection = Country::AU->collectRegions();
+
+    expect($collection instanceof Collection)->toBeTrue();
+    expect($collection->items)->toBe(Country::AU->regions());
+});
+
 it('will return a collection when country::collectRegionValues is run with laravel', function () {
     require_once __DIR__ . '/fixtures/Laravel/Collection.php';
 
