@@ -6,7 +6,7 @@ use InvalidArgumentException;
 
 enum Country: string
 {
-    case {SHORT} = '{SHORT}'; // {LABEL}
+    case PLACEHOLDER_SHORT = 'PLACEHOLDER_SHORT'; // PLACEHOLDER_LABEL
 
     /**
      * Get all the regions that belong to this country
@@ -180,7 +180,7 @@ enum Country: string
     public function label(): string
     {
         return match ($this) {
-            static::{SHORT} => "{LABEL}",
+            static::PLACEHOLDER_SHORT => "PLACEHOLDER_LABEL",
         };
     }
 
@@ -192,7 +192,7 @@ enum Country: string
     public function code(): string
     {
         return match ($this) {
-            static::{SHORT} => "{CODE}",
+            static::PLACEHOLDER_SHORT => "PLACEHOLDER_CODE",
         };
     }
 }

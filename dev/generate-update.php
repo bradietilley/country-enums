@@ -314,7 +314,7 @@ function countryName(string $label): string
 $countryStub = file_get_contents(STUB_COUNTRY);
 $countryLines = array_map(
     function ($line) use ($data) {
-        if (preg_match('/\{(SHORT|LABEL|CODE|BREAK)\}/i', $line, $matches)) {
+        if (preg_match('/PLACEHOLDER_(SHORT|LABEL|CODE|BREAK)/i', $line, $matches)) {
             $lines = [];
 
             foreach ($data as $country) {
@@ -322,11 +322,14 @@ $countryLines = array_map(
                 $label = countryName($country['countryName']);
                 $code = snake_case($label);
 
-                $lines[] = str_replace(
-                    ['{SHORT}', '{LABEL}', '{CODE}', '{BREAK}'],
-                    [$short, $label, $code, "\n"],
-                    $line,
-                );
+                $replacements = [
+                    'PLACEHOLDER_SHORT' => $short,
+                    'PLACEHOLDER_LABEL' => $label,
+                    'PLACEHOLDER_CODE' => $code,
+                    'PLACEHOLDER_BREAK' => "\n",
+                ];
+
+                $lines[] = str_replace(array_keys($replacements), array_values($replacements), $line);
             }
 
             $line = implode("\n", $lines);
@@ -342,7 +345,7 @@ file_put_contents(__DIR__ . '/../src/Country.php', implode(PHP_EOL, $countryLine
 $regionStub = file_get_contents(STUB_REGION);
 $regionLines = array_map(
     function ($line) use ($data) {
-        if (preg_match('/\{(SHORT|LABEL|CODE|BREAK|COUNTRY)\}/i', $line, $matches)) {
+        if (preg_match('/PLACEHOLDER_(SHORT|LABEL|CODE|BREAK|COUNTRY)/i', $line, $matches)) {
             $lines = [];
 
             foreach ($data as $country) {
@@ -367,11 +370,16 @@ $regionLines = array_map(
                     $label = $region['name'];
                     $code = snake_case($countryLabel . ' ' . $label);
 
-                    $lines[] = str_replace(
-                        ['{SHORT}', '{PAD}', '{LABEL}', '{CODE}', '{BREAK}', '{COUNTRY}'],
-                        [$short, str_pad('', 6 - strlen($short), ' ', STR_PAD_RIGHT), $label, $code, "\n", $countryLabel],
-                        $line,
-                    );
+                    $replacements = [
+                        '/*PAD*/' => str_pad('', 6 - strlen($short), ' ', STR_PAD_RIGHT),
+                        'PLACEHOLDER_SHORT' => $short,
+                        'PLACEHOLDER_LABEL' => $label,
+                        'PLACEHOLDER_CODE' => $code,
+                        'PLACEHOLDER_BREAK' => "\n",
+                        'PLACEHOLDER_COUNTRY' => $countryLabel,
+                    ];
+
+                    $lines[] = str_replace(array_keys($replacements), array_values($replacements), $line);
                 }
             }
 
