@@ -2,7 +2,12 @@
 
 namespace CountryEnums;
 
-use InvalidArgumentException;
+use CountryEnums\Exceptions\EnumNotFoundException;
+use CountryEnums\Exceptions\LaravelNotFoundException;
+use Illuminate\Support\Collection;
+use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\In;
+use ValueError;
 
 enum Region: string
 {
@@ -2502,7 +2507,7 @@ enum Region: string
      *
      * @param string $code
      * @return Region
-     * @throws InvalidArgumentException
+     * @throws EnumNotFoundException
      */
     public static function fromCode(string $code): Region
     {
@@ -2512,7 +2517,7 @@ enum Region: string
             }
         }
 
-        throw new InvalidArgumentException('Invalid Region Enum code');
+        throw EnumNotFoundException::notFound($code, 'Region');
     }
 
     /**
@@ -2525,9 +2530,102 @@ enum Region: string
     {
         try {
             return static::fromCode($code);
-        } catch (InvalidArgumentException $e) {
+        } catch (EnumNotFoundException $e) {
             return null;
         }
+    }
+
+    /**
+     * Get all region enums in an Illuminate\Support\Collection
+     *
+     * @requires Laravel
+     * @return \Ilumminate\Support\Collection<Region>
+     */
+    public static function collect()
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make(static::cases());
+    }
+
+    /**
+     * Get the validation for this enum
+     *
+     * @return \Illuminate\Validation\Rules\Enum
+     */
+    public static function enumRule()
+    {
+        if (!class_exists(Enum::class)) {
+            throw LaravelNotFoundException::classMissing(Enum::class);
+        }
+
+        return new Enum(static::class);
+    }
+
+    /**
+     * Get the validation for the enum's values
+     *
+     * @return \Illuminate\Validation\Rules\In
+     */
+    public static function inRule(string|Country|null $country = null)
+    {
+        if (!class_exists(In::class)) {
+            throw LaravelNotFoundException::classMissing(In::class);
+        }
+
+        return new In(static::getValues($country));
+    }
+
+    /**
+     * Parse the given region to a Region enum instance, or throw an exception it doesn't exist
+     *
+     * @param string|Region|null $value
+     * @return Region
+     * @throws EnumNotFoundException
+     */
+    public static function parse(string|Region|null $value): Region
+    {
+        if ($value === null) {
+            throw EnumNotFoundException::notFound($value, 'Region');;
+        }
+
+        if ($value instanceof Region) {
+            return $value;
+        }
+
+        try {
+            return static::from($value);
+        } catch (ValueError $e) {
+            throw EnumNotFoundException::notFound($value, 'Region');
+        }
+    }
+
+    /**
+     * Try to parse the given region value to a Region enum instance of null if it doesn't exist
+     *
+     * @param string|Region|null $value
+     * @return Region|null
+     */
+    public static function tryParse(string|Region|null $value): ?Region
+    {
+        try {
+            return static::parse($value);
+        } catch (EnumNotFoundException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Convert this to JSON
+     *
+     * @param int $options Flags for json_encode, e.g. JSON_PRETTY_PRINT
+     * @return string
+     */
+    public function toJson($options = 0): string
+    {
+        return json_encode($this->toArray(), $options);
     }
 
     /**

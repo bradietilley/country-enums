@@ -1,7 +1,10 @@
 <?php
 
 use CountryEnums\Country;
+use CountryEnums\Exceptions\EnumNotFoundException;
+use CountryEnums\Exceptions\LaravelNotFoundException;
 use CountryEnums\Region;
+use Illuminate\Support\Collection;
 
 it('will spawn a country using static cases', function () {
     expect(Country::AU->value)->toBe('AU');
@@ -191,4 +194,46 @@ it('can compile a country to array', function () {
         ],
         'code' => 'australia',
     ]);
+});
+
+it('can compile a country to json', function () {
+    expect(Country::AU->toJson())->toBe(json_encode(Country::AU->toArray()));
+});
+
+it('can parse a country value to an enum value', function () {
+    expect(Country::parse('AU'))->toBe(Country::AU);
+    expect(Country::parse(Country::AU))->toBe(Country::AU);
+});
+
+it('throws an exception when parsing an invalid country', function () {
+    Country::parse('invalid');
+})->throws(EnumNotFoundException::class, 'Enum value "invalid" not found in Country');
+
+it('throws an exception when parsing a null country', function () {
+    Country::parse(null);
+})->throws(EnumNotFoundException::class, 'Enum value null not found in Country');
+
+it('can try parse a country value to an enum value', function () {
+    expect(Country::tryParse('AU'))->toBe(Country::AU);
+    expect(Country::tryParse(Country::AU))->toBe(Country::AU);
+    expect(Country::tryParse('invalid'))->toBeNull();
+    expect(Country::tryParse(null))->toBeNull();
+});
+
+it('will throw an exception when country::collect is run without laravel', function () {
+    expect(function () {
+        Country::collect();
+    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
+});
+
+it('will throw an exception when country::inRule is run without laravel', function () {
+    expect(function () {
+        Country::inRule();
+    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Validation\\Rules\\In does not exist (Laravel is required to run this function)');
+});
+
+it('will throw an exception when country::enumRule is run without laravel', function () {
+    expect(function () {
+        Country::enumRule();
+    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Validation\\Rules\\Enum does not exist (Laravel is required to run this function)');
 });

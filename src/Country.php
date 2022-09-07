@@ -2,7 +2,13 @@
 
 namespace CountryEnums;
 
+use CountryEnums\Exceptions\EnumNotFoundException;
+use CountryEnums\Exceptions\LaravelNotFoundException;
 use InvalidArgumentException;
+use Illuminate\Support\Collection;
+use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rules\In;
+use ValueError;
 
 enum Country: string
 {
@@ -418,6 +424,99 @@ enum Country: string
         } catch (InvalidArgumentException $e) {
             return null;
         }
+    }
+
+    /**
+     * Get all country enums in an Illuminate\Support\Collection
+     *
+     * @requires Laravel
+     * @return \Ilumminate\Support\Collection<Country>
+     */
+    public static function collect()
+    {
+        if (!class_exists(Collection::class)) {
+            throw LaravelNotFoundException::classMissing(Collection::class);
+        }
+
+        return Collection::make(static::cases());
+    }
+
+    /**
+     * Get the validation for this enum
+     *
+     * @return \Illuminate\Validation\Rules\Enum
+     */
+    public static function enumRule()
+    {
+        if (!class_exists(Enum::class)) {
+            throw LaravelNotFoundException::classMissing(Enum::class);
+        }
+
+        return new Enum(static::class);
+    }
+
+    /**
+     * Get the validation for the enum's values
+     *
+     * @return \Illuminate\Validation\Rules\In
+     */
+    public static function inRule()
+    {
+        if (!class_exists(In::class)) {
+            throw LaravelNotFoundException::classMissing(In::class);
+        }
+
+        return new In(static::getValues());
+    }
+
+    /**
+     * Parse the given country to a Country enum instance, or throw an exception it doesn't exist
+     *
+     * @param string|Country|null $value
+     * @return Country
+     * @throws EnumNotFoundException
+     */
+    public static function parse(string|Country|null $value): Country
+    {
+        if ($value === null) {
+            throw EnumNotFoundException::notFound($value, 'Country');
+        }
+
+        if ($value instanceof Country) {
+            return $value;
+        }
+
+        try {
+            return static::from($value);
+        } catch (ValueError $e) {
+            throw EnumNotFoundException::notFound($value, 'Country');
+        }
+    }
+
+    /**
+     * Try to parse the given country value to a Country enum instance of null if it doesn't exist
+     *
+     * @param string|Country|null $value
+     * @return Country|null
+     */
+    public static function tryParse(string|Country|null $value): ?Country
+    {
+        try {
+            return static::parse($value);
+        } catch (EnumNotFoundException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Convert this to JSON
+     *
+     * @param int $options Flags for json_encode, e.g. JSON_PRETTY_PRINT
+     * @return string
+     */
+    public function toJson($options = 0): string
+    {
+        return json_encode($this->toArray(), $options);
     }
 
     /**
