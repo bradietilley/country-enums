@@ -17,6 +17,9 @@
     "require-dev": {
         "pestphp/pest": "^1.22"
     },
+    "require": {
+        "php": "^8.0"
+    },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
