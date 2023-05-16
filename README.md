@@ -1,5 +1,9 @@
 # PHP Country (and Region) Enums
 
+![Static Analysis](https://github.com/bradietilley/country-enums/actions/workflows/static.yml/badge.svg)
+![Tests](https://github.com/bradietilley/country-enums/actions/workflows/tests.yml/badge.svg)
+
+
 All (or at least most) countries and their regions formatted as PHP enums, framework agnostic (of course).
 
 Includes automatic relationships between Countries and Regions, and comes out of the box with svg & png flags. See Authors section for due credit.
