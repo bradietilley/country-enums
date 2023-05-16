@@ -12,7 +12,7 @@ class EnumNotFoundException extends InvalidArgumentException
             sprintf('Enum value %s not found in %s', json_encode($value), $enumClass)
         );
     }
-    
+
     public static function codeNotFound(string|null $value, string $enumClass): self
     {
         return new static(

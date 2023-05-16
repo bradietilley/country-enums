@@ -271,7 +271,7 @@ enum Country: string
         return array_values(
             array_filter(
                 Region::cases(),
-                fn(Region $region) => ($this->value === $region->countryCode()),
+                fn (Region $region) => ($this->value === $region->countryCode()),
             )
         );
     }
@@ -301,7 +301,7 @@ enum Country: string
         return [
             'label' => $this->label(),
             'value' => $this->value,
-            'regions' => array_map(fn(Region $region) => $region->toArray(), $this->regions()),
+            'regions' => array_map(fn (Region $region) => $region->toArray(), $this->regions()),
             'code' => $this->code(),
         ];
     }
@@ -325,7 +325,7 @@ enum Country: string
      */
     public static function getValues(): array
     {
-        return array_map(fn(Country $country) => $country->value, static::cases());
+        return array_map(fn (Country $country) => $country->value, static::cases());
     }
 
     /**
@@ -350,7 +350,7 @@ enum Country: string
      */
     public function getRegionValues(): array
     {
-        return array_map(fn(Region $region) => $region->value, $this->regions());
+        return array_map(fn (Region $region) => $region->value, $this->regions());
     }
 
     /**
@@ -431,7 +431,7 @@ enum Country: string
     {
         if ($width > 250) {
             $width = 1000;
-        } else if ($width > 100) {
+        } elseif ($width > 100) {
             $width = 250;
         } else {
             $width = 100;

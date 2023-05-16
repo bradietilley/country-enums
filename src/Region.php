@@ -2445,7 +2445,7 @@ enum Region: string
     public static function for(string|Country $country): array
     {
         $country = ($country instanceof Country) ? $country : Country::from($country);
-        
+
         return $country->regions();
     }
 
@@ -2491,7 +2491,7 @@ enum Region: string
             return $country->getRegionValues();
         }
 
-        return array_map(fn(Region $region) => $region->value, static::cases());
+        return array_map(fn (Region $region) => $region->value, static::cases());
     }
 
     /**
@@ -2518,14 +2518,14 @@ enum Region: string
     public static function getOptions(string|Country $country = null): array
     {
         $options = [];
-        
+
         if ($country !== null) {
             $country = ($country instanceof Country) ? $country : Country::from($country);
 
             $cases = $country->regions();
         } else {
             $cases = static::cases();
-        } 
+        }
 
         foreach ($cases as $region) {
             $options[$region->value] = $region->label();
@@ -2636,7 +2636,8 @@ enum Region: string
     public static function parse(string|Region|null $value): Region
     {
         if ($value === null) {
-            throw EnumNotFoundException::valueNotFound($value, 'Region');;
+            throw EnumNotFoundException::valueNotFound($value, 'Region');
+            ;
         }
 
         if ($value instanceof Region) {

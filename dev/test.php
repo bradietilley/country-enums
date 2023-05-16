@@ -7,7 +7,7 @@ $from = memory_get_peak_usage(true);
 
 function dd()
 {
-    array_map(fn($x) => print_r($x), func_get_args());
+    array_map(fn ($x) => print_r($x), func_get_args());
     die;
 }
 

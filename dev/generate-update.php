@@ -281,7 +281,7 @@ function transliterateString(string $txt): string
         'я' => 'ja',
         'Я' => 'ja'
     ];
-    
+
     return str_replace(array_keys($transliterationTable), array_values($transliterationTable), $txt);
 }
 

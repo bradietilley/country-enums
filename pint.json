@@ -1,0 +1,12 @@
+{
+    "preset": "psr12",
+    "exclude": [
+        "bootstrap/",
+        "nova"
+    ],
+    "rules": {
+        "phpdoc_annotation_without_dot": true,
+        "phpdoc_no_useless_inheritdoc": true,
+        "phpdoc_trim": true
+    }
+}

@@ -95,7 +95,7 @@ it('will return an Enum Rule when country::enumRule is run with laravel', functi
     $rule = Country::enumRule();
 
     expect($rule instanceof Enum)->toBeTrue();
-    
+
     $type= (new ReflectionProperty($rule, 'type'));
     expect($type->getValue($rule))->toBe(Country::class);
 });
@@ -104,7 +104,7 @@ it('will return an Enum rule when region::enumRule is run with laravel', functio
     $rule = Region::enumRule();
 
     expect($rule instanceof Enum)->toBeTrue();
-    
+
     $type= (new ReflectionProperty($rule, 'type'));
     expect($type->getValue($rule))->toBe(Region::class);
 });

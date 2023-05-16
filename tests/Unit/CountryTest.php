@@ -2,9 +2,7 @@
 
 use CountryEnums\Country;
 use CountryEnums\Exceptions\EnumNotFoundException;
-use CountryEnums\Exceptions\LaravelNotFoundException;
 use CountryEnums\Region;
-use Illuminate\Support\Collection;
 
 it('will spawn a country using static cases', function () {
     expect(Country::AU->value)->toBe('AU');
@@ -114,7 +112,7 @@ it('can retrieve the png flag paths', function () {
 
         $path = Country::AU->pngFlag($input);
         expect(file_exists($path))->toBeTrue();
-    
+
         $actual = file_get_contents($path);
         expect($actual)->toBe($expect);
 

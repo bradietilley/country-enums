@@ -2,7 +2,6 @@
 
 use CountryEnums\Country;
 use CountryEnums\Exceptions\EnumNotFoundException;
-use CountryEnums\Exceptions\LaravelNotFoundException;
 use CountryEnums\Region;
 
 it('will spawn a region using static cases', function () {
