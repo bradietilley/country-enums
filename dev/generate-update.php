@@ -281,12 +281,12 @@ function transliterateString(string $txt): string
         'я' => 'ja',
         'Я' => 'ja'
     ];
-    
+
     return str_replace(array_keys($transliterationTable), array_values($transliterationTable), $txt);
 }
 
 // Fetch JSON from source (local or github)
-$data = json_decode(file_get_contents(SOURCE), true);
+$data = json_decode(file_get_contents(SOURCE), true, 512, JSON_THROW_ON_ERROR);
 
 function snake_case(string $string): string
 {

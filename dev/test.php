@@ -5,9 +5,9 @@ use CountryEnums\Region;
 
 $from = memory_get_peak_usage(true);
 
-function dd()
+function dd(): never
 {
-    array_map(fn($x) => print_r($x), func_get_args());
+    array_map(fn ($x) => print_r($x), func_get_args());
     die;
 }
 

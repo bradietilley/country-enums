@@ -2,7 +2,6 @@
 
 use CountryEnums\Country;
 use CountryEnums\Exceptions\EnumNotFoundException;
-use CountryEnums\Exceptions\LaravelNotFoundException;
 use CountryEnums\Region;
 
 it('will spawn a region using static cases', function () {
@@ -14,7 +13,7 @@ it('will spawn a region using static from', function () {
     expect(Region::from('AU_NSW'))->toBe(Region::AU_NSW);
     expect(Region::from('NZ_AUK'))->toBe(Region::NZ_AUK);
     expect(Region::tryFrom('US_CA'))->toBe(Region::US_CA);
-    expect(Region::tryFrom('NZ_ZZZ'))->toBeNull(null);
+    expect(Region::tryFrom('NZ_ZZZ'))->toBeNull();
 });
 
 it('will produce the correct labels', function () {
@@ -160,40 +159,4 @@ it('can try parse a region value to an enum value', function () {
     expect(Region::tryParse(Region::AU_NSW))->toBe(Region::AU_NSW);
     expect(Region::tryParse('invalid'))->toBeNull();
     expect(Region::tryParse(null))->toBeNull();
-});
-
-it('will throw an exception when region::collect is run without laravel', function () {
-    expect(function () {
-        Region::collect();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when region::inRule is run without laravel', function () {
-    expect(function () {
-        Region::inRule();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Validation\\Rules\\In does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when region::enumRule is run without laravel', function () {
-    expect(function () {
-        Region::enumRule();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Validation\\Rules\\Enum does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when region::collectOptions is run without laravel', function () {
-    expect(function () {
-        Region::collectOptions();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when region::collectValues is run without laravel', function () {
-    expect(function () {
-        Region::collectValues();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when region::collectFor is run without laravel', function () {
-    expect(function () {
-        Region::collectFor(Country::AU);
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
 });

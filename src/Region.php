@@ -2392,8 +2392,6 @@ enum Region: string
 
     /**
      * Get the country that this region belongs to
-     *
-     * @return Country
      */
     public function country(): Country
     {
@@ -2402,8 +2400,6 @@ enum Region: string
 
     /**
      * Cast this Region to array format
-     *
-     * @return array
      */
     public function toArray(): array
     {
@@ -2418,8 +2414,6 @@ enum Region: string
 
     /**
      * Get the region code
-     *
-     * @return string
      */
     public function regionCode(): string
     {
@@ -2428,8 +2422,6 @@ enum Region: string
 
     /**
      * Get the country code
-     *
-     * @return string
      */
     public function countryCode(): string
     {
@@ -2439,13 +2431,12 @@ enum Region: string
     /**
      * Get regions in the given country.
      *
-     * @param string|Country $country
      * @return array<Region>
      */
     public static function for(string|Country $country): array
     {
         $country = ($country instanceof Country) ? $country : Country::from($country);
-        
+
         return $country->regions();
     }
 
@@ -2453,8 +2444,6 @@ enum Region: string
      * Get the regions in the given country as a collection
      *
      * @requires Laravel
-     * @param string|Country $country
-     * @return Collection
      */
     public static function collectFor(string|Country $country): Collection
     {
@@ -2467,8 +2456,6 @@ enum Region: string
 
     /**
      * Get a random Region
-     *
-     * @return Region
      */
     public static function random(string|Country $country = null): Region
     {
@@ -2479,9 +2466,6 @@ enum Region: string
 
     /**
      * Get all available region codes (optionally scoped by country)
-     *
-     * @param string|Country|null $country
-     * @return array
      */
     public static function getValues(string|Country $country = null): array
     {
@@ -2491,15 +2475,13 @@ enum Region: string
             return $country->getRegionValues();
         }
 
-        return array_map(fn(Region $region) => $region->value, static::cases());
+        return array_map(fn (Region $region) => $region->value, static::cases());
     }
 
     /**
      * Get all available region codes (optionally scoped by country) as a collection
      *
      * @requires Laravel
-     * @param string|Country|null $country
-     * @return Collection
      */
     public static function collectValues(string|Country $country = null): Collection
     {
@@ -2512,20 +2494,18 @@ enum Region: string
 
     /**
      * Get all options in key-value (code => label) pairs
-     *
-     * @return array
      */
     public static function getOptions(string|Country $country = null): array
     {
         $options = [];
-        
+
         if ($country !== null) {
             $country = ($country instanceof Country) ? $country : Country::from($country);
 
             $cases = $country->regions();
         } else {
             $cases = static::cases();
-        } 
+        }
 
         foreach ($cases as $region) {
             $options[$region->value] = $region->label();
@@ -2538,8 +2518,6 @@ enum Region: string
      * Get all available region codes (optionally scoped by country) as a collection
      *
      * @requires Laravel
-     * @param string|Country|null $country
-     * @return Collection
      */
     public static function collectOptions(string|Country $country = null): Collection
     {
@@ -2553,8 +2531,6 @@ enum Region: string
     /**
      * Convert the given code to a Region, or throw an exception
      *
-     * @param string $code
-     * @return Region
      * @throws EnumNotFoundException
      */
     public static function fromCode(string $code): Region
@@ -2570,9 +2546,6 @@ enum Region: string
 
     /**
      * Try to convert the given code to a Region, null if not valid
-     *
-     * @param string $code
-     * @return Region|null
      */
     public static function tryFromCode(string $code): ?Region
     {
@@ -2600,8 +2573,6 @@ enum Region: string
 
     /**
      * Get the validation for this enum
-     *
-     * @return \Illuminate\Validation\Rules\Enum
      */
     public static function enumRule(): Enum
     {
@@ -2614,8 +2585,6 @@ enum Region: string
 
     /**
      * Get the validation for the enum's values
-     *
-     * @return \Illuminate\Validation\Rules\In
      */
     public static function inRule(string|Country|null $country = null): In
     {
@@ -2629,14 +2598,13 @@ enum Region: string
     /**
      * Parse the given region to a Region enum instance, or throw an exception it doesn't exist
      *
-     * @param string|Region|null $value
-     * @return Region
      * @throws EnumNotFoundException
      */
     public static function parse(string|Region|null $value): Region
     {
         if ($value === null) {
-            throw EnumNotFoundException::valueNotFound($value, 'Region');;
+            throw EnumNotFoundException::valueNotFound($value, 'Region');
+            ;
         }
 
         if ($value instanceof Region) {
@@ -2652,9 +2620,6 @@ enum Region: string
 
     /**
      * Try to parse the given region value to a Region enum instance of null if it doesn't exist
-     *
-     * @param string|Region|null $value
-     * @return Region|null
      */
     public static function tryParse(string|Region|null $value): ?Region
     {
@@ -2669,7 +2634,6 @@ enum Region: string
      * Convert this to JSON
      *
      * @param int $options Flags for json_encode, e.g. JSON_PRETTY_PRINT
-     * @return string
      */
     public function toJson($options = 0): string
     {
@@ -2678,8 +2642,6 @@ enum Region: string
 
     /**
      * Get the human-readable label of this region without country prefix
-     *
-     * @return string
      */
     public function label(): string
     {
@@ -5067,8 +5029,6 @@ enum Region: string
 
     /**
      * Get the code key (English-version snake_case) for this Region
-     *
-     * @return string
      */
     public function code(): string
     {

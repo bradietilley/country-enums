@@ -6,10 +6,14 @@ Includes automatic relationships between Countries and Regions, and comes out of
 
 Includes a small handful of Laravel helper methods which are made available if this is installed on a Laravel app.
 
+## Requirements
+
+PHP 8.1+
+
 
 ## Installation
 
-Available on [packagist](https://packagist.org/packages/bradietilley/country-enums) and thus via composer:
+Install it via composer:
 
 ```
 composer require bradietilley/country-enums
