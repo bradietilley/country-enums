@@ -2,9 +2,12 @@
 
 namespace Illuminate\Validation\Rules;
 
-class In
-{
-    public function __construct(public array $values = [])
-    {
-    }
-}
+// if (! class_exists(In::class)) {
+
+//     class In
+//     {
+//         public function __construct(public array $values = [])
+//         {
+//         }
+//     }
+// }

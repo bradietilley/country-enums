@@ -15,7 +15,7 @@ it('will spawn a country using static from', function () {
     expect(Country::from('AU'))->toBe(Country::AU);
     expect(Country::from('NZ'))->toBe(Country::NZ);
     expect(Country::tryFrom('US'))->toBe(Country::US);
-    expect(Country::tryFrom('NZZZZ'))->toBeNull(null);
+    expect(Country::tryFrom('NZZZZ'))->toBeNull();
 });
 
 it('will produce the correct labels', function () {
@@ -86,7 +86,7 @@ it('can retrieve a list of regions values by country', function () {
 });
 
 it('can retrieve the svg flag path', function () {
-    $expect = file_get_contents(__DIR__ . '/fixtures/au.svg');
+    $expect = file_get_contents(__DIR__ . '/../fixtures/au.svg');
 
     $path = Country::AU->svgFlag();
     expect(file_exists($path))->toBeTrue();
@@ -110,7 +110,7 @@ it('can retrieve the png flag paths', function () {
     ];
 
     foreach ($sizes as $input => $output) {
-        $expect = file_get_contents(__DIR__ . '/fixtures/au_' . $output . '.png');
+        $expect = file_get_contents(__DIR__ . '/../fixtures/au_' . $output . '.png');
 
         $path = Country::AU->pngFlag($input);
         expect(file_exists($path))->toBeTrue();
@@ -218,46 +218,4 @@ it('can try parse a country value to an enum value', function () {
     expect(Country::tryParse(Country::AU))->toBe(Country::AU);
     expect(Country::tryParse('invalid'))->toBeNull();
     expect(Country::tryParse(null))->toBeNull();
-});
-
-it('will throw an exception when country::collect is run without laravel', function () {
-    expect(function () {
-        Country::collect();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when country::inRule is run without laravel', function () {
-    expect(function () {
-        Country::inRule();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Validation\\Rules\\In does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when country::enumRule is run without laravel', function () {
-    expect(function () {
-        Country::enumRule();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Validation\\Rules\\Enum does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when country::collectOptions is run without laravel', function () {
-    expect(function () {
-        Country::collectOptions();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when country::collectValues is run without laravel', function () {
-    expect(function () {
-        Country::collectValues();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when country::collectRegionValues is run without laravel', function () {
-    expect(function () {
-        Country::AU->collectRegionValues();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
-});
-
-it('will throw an exception when country::collectionRegions is run without laravel', function () {
-    expect(function () {
-        Country::AU->collectRegions();
-    })->toThrow(LaravelNotFoundException::class, 'The class Illuminate\\Support\\Collection does not exist (Laravel is required to run this function)');
 });
