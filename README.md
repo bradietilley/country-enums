@@ -9,7 +9,7 @@ Includes a small handful of Laravel helper methods which are made available if t
 
 ## Installation
 
-Available on [packagist](https://packagist.org/packages/bradietilley/country-enums) and thus via composer:
+Install it via composer:
 
 ```
 composer require bradietilley/country-enums
