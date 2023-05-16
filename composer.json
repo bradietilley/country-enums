@@ -19,6 +19,9 @@
             "homepage": "https://github.com/bradietilley"
         }
     ],
+    "require": {
+        "php": "^8.1"
+    },
     "require-dev": {
         "pestphp/pest": "^2.6",
         "pestphp/pest-plugin-laravel": "^2.0",

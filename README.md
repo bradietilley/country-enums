@@ -6,6 +6,10 @@ Includes automatic relationships between Countries and Regions, and comes out of
 
 Includes a small handful of Laravel helper methods which are made available if this is installed on a Laravel app.
 
+## Requirements
+
+PHP 8.1+
+
 
 ## Installation
 
